@@ -1,0 +1,22 @@
+Version: 0.2
+env:
+   Variables: 
+      DOCKER_USERNAME: "sairamdasireddy210"
+      IMAGE_NAME: “nginx”
+      IMAGE_TAG: “v1”
+Parameter-store:
+       DOCKER_PASSWORD: “docker_password”
+Phases: 
+   Pre-build:
+    Commands: 
+      - echo “Login  to docker “
+      -  docker login -u $DOCKER_USERNAME -P $DOCKER_PASSWORD 
+   Build :
+     Commands: 
+      -  echo “ docker images build process “
+      -   docker build -t  $IMAGE_NAME:$IMAGE_TAG
+      -   docker tag $IMAGE_NAME:$IMAE_TAG  $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG 
+   post-build: 
+     commands: 
+      - echo “ build successfully completed”
+      - docker push $DOCKER_USERNAME/$IMAGE_NAME:IMAGE_TAG
